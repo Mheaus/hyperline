@@ -40,6 +40,8 @@ export default class Time extends Component {
     this.state = {
       time: this.getCurrentTime()
     }
+
+    moment.locale('fr')
   }
 
   componentDidMount() {
@@ -54,7 +56,7 @@ export default class Time extends Component {
 
   getCurrentTime() {
     // TODO: Allow for format overriding by the user
-    return moment().format('LTS')
+    return moment().format('MM/YY LTS')
   }
 
   render() {

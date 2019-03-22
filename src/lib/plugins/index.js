@@ -4,9 +4,9 @@ import memory from './memory'
 // Import Uptime from './uptime'
 import cpu from './cpu'
 import network from './network'
-import battery from './battery'
-// Import Time from './time'
-// Import Docker from './docker'
-import spotify from './spotify'
+// import battery from './battery'
+import time from './time'
+import docker from './docker'
+// import spotify from './spotify'
 
-export default [hostname, ip, memory, battery, cpu, network, spotify]
+export default [time, hostname, ip, memory, cpu, network, docker]

@@ -38,8 +38,13 @@ export default class Docker extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { version: 'Not running' }
+    this.state = {
+      version: 'Not running',
+      runningContainers: 0,
+    }
+
     this.setVersion = this.setVersion.bind(this)
+    this.setRunningContainers = this.setRunningContainers.bind(this)
   }
 
   setVersion() {
@@ -52,9 +57,26 @@ export default class Docker extends Component {
       })
   }
 
+  setRunningContainers() {
+    exec('/usr/local/bin/docker ps | wc -l')
+      .then(length => {
+        this.setState({ runningContainers: length > 0 ? length - 1 : 0 })
+      })
+      .catch(() => {
+        this.setState({ runningContainers: 0 })
+      })
+  }
+
   componentDidMount() {
     this.setVersion()
-    this.interval = setInterval(() => this.setVersion(), 15000)
+    this.setRunningContainers()
+    this.interval = setInterval(
+      () => {
+        this.setVersion()
+        this.setRunningContainers()
+      },
+      60000
+    )
   }
 
   componentWillUnmount() {
@@ -62,9 +84,11 @@ export default class Docker extends Component {
   }
 
   render() {
+    const { runningContainers, version } = this.state;
+
     return (
       <div className='wrapper'>
-        <PluginIcon /> {this.state.version}
+        <PluginIcon />{`${version} : ${runningContainers} running`}
 
         <style jsx>{`
           .wrapper {
