@@ -26,7 +26,7 @@ class PluginIcon extends Component {
         </g>
         <style jsx>{`
           .ip-icon {
-            fill: #fff;
+            fill: #3d3d3d;
           }
         `}</style>
       </SvgIcon>

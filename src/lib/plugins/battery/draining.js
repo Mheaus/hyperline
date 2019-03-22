@@ -30,7 +30,7 @@ export default class Draining extends Component {
 
         <style jsx>{`
           .cpu-discharging-icon {
-            fill: #fff;
+            fill: #3d3d3d;
           }
         `}</style>
       </SvgIcon>

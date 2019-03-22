@@ -14,7 +14,7 @@ export default class Critical extends Component {
 
         <style jsx>{`
           .cpu-critical-icon {
-            fill: #fff;
+            fill: #3d3d3d;
           }
         `}</style>
       </SvgIcon>

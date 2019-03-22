@@ -23,19 +23,20 @@ class HyperLine extends Component {
 
         <style jsx>{`
           .line {
-            display: flex;
             align-items: center;
-            position: absolute;
-            overflow: hidden;
-            bottom: 0;
-            width: 100%;
-            height: 18px;
-            font: bold 10px Monospace;
-            pointer-events: none;
             background: rgba(0, 0, 0, 0.08);
+            bottom: 0;
+            display: flex;
+            color: #3d3d3d;
+            font: bold 10px Monospace;
+            height: 18px;
             margin: 2px 0;
+            overflow: hidden;
             padding: 0 10px;
-          },
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+          }
           .wrapper {
             display: flex;
             flex-shrink: 0;

@@ -14,7 +14,7 @@ export default class Charging extends Component {
 
         <style jsx>{`
           .cpu-charging-icon {
-            fill: #fff;
+            fill: #3d3d3d;
           }
         `}</style>
       </SvgIcon>

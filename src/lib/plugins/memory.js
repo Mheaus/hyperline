@@ -31,7 +31,7 @@ class PluginIcon extends Component {
 
         <style jsx>{`
           .memory-icon {
-            fill: #fff;
+            fill: #3d3d3d;
           }
         `}</style>
 

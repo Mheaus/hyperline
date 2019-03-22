@@ -37,7 +37,7 @@ class PluginIcon extends Component {
 
         <style jsx>{`
           .cpu-icon {
-            fill: #fff;
+            fill: #3d3d3d;
           }
         `}</style>
       </SvgIcon>

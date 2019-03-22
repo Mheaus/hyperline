@@ -16,9 +16,10 @@ export default class SvgIcon extends Component {
 
         <style jsx>{`
           .icon {
+            fill: #3d3d3d;
+            height: 16px;
             margin-right: 7px;
             width: 16px;
-            height: 16px;
           }
         `}</style>
       </svg>
