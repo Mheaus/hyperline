@@ -3,11 +3,11 @@ HyperLine
 
 **HyperLine is a status line plugin for [Hyper.app](https://hyper.is/)**. It shows you useful system information such as free memory, uptime and CPU usage.
 
+This is my version of the plugin, updated from the original on `Hyperline/hyperline`](https://github.com/Hyperline/hyperline/).
+
 ![Screenshot](./screenshot.png)
 
 ## Install
-
-* **NOTE:** HyperLine is not currently supported when using Microsoft Windows. See [this issue](https://github.com/Hyperline/hyperline/issues/57) for additional information.
 
 To install, edit `~/.hyper.js` and add `"hyperline"` to `plugins`:
 
@@ -17,30 +17,9 @@ plugins: [
 ],
 ```
 
-## Styling the line
-
-We implemented the same mechanism for styling/creating css classes that Hyper uses.
-This will allow you to create custom HyperLine themes the same way you would create a Hyper css theme.
-
-## Configuring plugins
-Add the names of plugins in the order in which you would like them to be displayed to your `~/.hyper.js`:
-
-```
-config: {                                                                      
-  hyperline: {                                                                 
-    plugins: [                                                                 
-      "ip",                                                                    
-      "cpu",                                                                   
-      "spotify"                                                                
-    ]                                                                          
-  },
-}
-```
-You can see a list of all available plugins in [`src/lib/plugins/index.js`](https://github.com/Hyperline/hyperline/blob/master/src/lib/plugins/index.js)
-
 ## Contributing
 
-Feel free to contribute to HyperLine by [requesting a feature](https://github.com/hyperline/hyperline/issues/new), [submitting a bug](https://github.com/hyperline/hyperline/issues/new) or contributing code.
+Feel free to contribute to HyperLine by [requesting a feature](https://github.com/mheaus/hyperline/issues/new), [submitting a bug](https://github.com/mheaus/hyperline/issues/new) or contributing code.
 
 To set up the project for development:
 
@@ -52,12 +31,9 @@ To set up the project for development:
 
 ## Authors
 
-- Nick Tikhonov [@nicktikhonov](https://github.com/nicktikhonov)
-- Tim Neutkens [@timneutkens](https://github.com/timneutkens)
-- Stefan Ivic [@stefanivic](https://github.com/stefanivic)
-- Henrik Dahlheim [@henrikdahl](https://github.com/henrikdahl)
+- Mathieu Audebert [@mheaus](https://github.com/mheaus)
 
 ## Contributors
 
-This project exists thanks to all the people who contribute.
+This project exists thanks to the opencollective who first started this project.
 <a href="graphs/contributors"><img src="https://opencollective.com/hyperline/contributors.svg?width=890" /></a>

@@ -88,7 +88,7 @@ export default class Docker extends Component {
 
     return (
       <div className='wrapper'>
-        <PluginIcon />{`${version} : ${runningContainers} running`}
+        <PluginIcon />{version === 'Not running' ? version : `${version} : ${runningContainers} running`}
 
         <style jsx>{`
           .wrapper {

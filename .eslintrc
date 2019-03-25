@@ -1,0 +1,6 @@
+{
+  "extends": ["wesbos"],
+  "rules": {
+    "react/no-multi-comp": [true, { "ignoreStateless": true }]
+  }
+}
