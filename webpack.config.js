@@ -1,5 +1,5 @@
-const webpack = require('webpack')
-const nodeExternals = require('webpack-node-externals')
+const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   target: 'node',
@@ -7,21 +7,31 @@ module.exports = {
   output: {
     path: './dist',
     filename: 'hyperline.js',
-    libraryTarget: 'commonjs'
+    libraryTarget: 'commonjs',
   },
-  plugins: [ new webpack.DefinePlugin({ 'global.GENTLY': false }) ],
-  externals: [ nodeExternals(), 'hyper/component', 'hyper/notify', 'hyper/decorate', 'react' ],
+  plugins: [
+    new webpack.DefinePlugin({
+      'global.GENTLY': false,
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+  ],
+  externals: [
+    nodeExternals(),
+    'hyper/component',
+    'hyper/notify',
+    'hyper/decorate',
+  ],
   module: {
     rules: [
       {
         test: /\.json$/,
-        loader: 'json-loader'
+        loader: 'json-loader',
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
-      }
-    ]
-  }
-}
+        exclude: /node_modules/,
+      },
+    ],
+  },
+};

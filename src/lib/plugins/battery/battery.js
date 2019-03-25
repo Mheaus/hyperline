@@ -1,9 +1,8 @@
 import React from 'react';
-import Component from 'hyper/component';
 import leftPad from 'left-pad';
 import BatteryIcon from './battery-icon';
 
-export default class Battery extends Component {
+export default class Battery extends React.PureComponent {
   static displayName() {
     return 'battery';
   }

@@ -1,16 +1,15 @@
-import { exec as ex } from 'child_process'
-import React from 'react'
-import Component from 'hyper/component'
-import SvgIcon from '../utils/svg-icon'
+import { exec as ex } from 'child_process';
+import React from 'react';
+import SvgIcon from '../utils/svg-icon';
 
-class PluginIcon extends Component {
+class PluginIcon extends React.PureComponent {
   render() {
     return (
       <SvgIcon>
         <g fill="none" fillRule="evenodd">
           <g fill="none" fillRule="evenodd">
             <g
-              className='network-icon'
+              className="network-icon"
               transform="translate(1.000000, 1.000000)"
             >
               <g>
@@ -26,69 +25,81 @@ class PluginIcon extends Component {
           }
         `}</style>
       </SvgIcon>
-    )
+    );
   }
 }
 
-export default class Docker extends Component {
+function exec(command, options) {
+  return new Promise((resolve, reject) => {
+    ex(command, options, (err, stdout, stderr) => {
+      if (err) {
+        reject(new Error(`${err}\n${stderr}`));
+      } else {
+        resolve(stdout);
+      }
+    });
+  });
+}
+
+export default class Docker extends React.PureComponent {
   static displayName() {
-    return 'docker'
+    return 'docker';
   }
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       version: 'Not running',
       runningContainers: 0,
-    }
+    };
 
-    this.setVersion = this.setVersion.bind(this)
-    this.setRunningContainers = this.setRunningContainers.bind(this)
+    this.setVersion = this.setVersion.bind(this);
+    this.setRunningContainers = this.setRunningContainers.bind(this);
+  }
+
+  componentDidMount() {
+    this.setVersion();
+    this.setRunningContainers();
+    this.interval = setInterval(() => {
+      this.setVersion();
+      this.setRunningContainers();
+    }, 60000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   setVersion() {
     exec('/usr/local/bin/docker version -f {{.Server.Version}}')
       .then(version => {
-        this.setState({ version })
+        this.setState({ version });
       })
       .catch(() => {
-        this.setState({ version: 'Not running' })
-      })
+        this.setState({ version: 'Not running' });
+      });
   }
 
   setRunningContainers() {
     exec('/usr/local/bin/docker ps | wc -l')
       .then(length => {
-        this.setState({ runningContainers: length > 0 ? length - 1 : 0 })
+        this.setState({ runningContainers: length > 0 ? length - 1 : 0 });
       })
       .catch(() => {
-        this.setState({ runningContainers: 0 })
-      })
-  }
-
-  componentDidMount() {
-    this.setVersion()
-    this.setRunningContainers()
-    this.interval = setInterval(
-      () => {
-        this.setVersion()
-        this.setRunningContainers()
-      },
-      60000
-    )
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval)
+        this.setState({ runningContainers: 0 });
+      });
   }
 
   render() {
     const { runningContainers, version } = this.state;
 
     return (
-      <div className='wrapper'>
-        <PluginIcon />{version === 'Not running' ? version : `${version} : ${runningContainers} running`}
+      <div className="wrapper">
+        <PluginIcon />
+        {version === 'Not running'
+          ? version
+          : `${version} : ${runningContainers} running`}
 
         <style jsx>{`
           .wrapper {
@@ -98,18 +109,6 @@ export default class Docker extends Component {
           }
         `}</style>
       </div>
-    )
+    );
   }
-}
-
-function exec(command, options) {
-  return new Promise((resolve, reject) => {
-    ex(command, options, (err, stdout, stderr) => {
-      if (err) {
-        reject(`${err}\n${stderr}`)
-      } else {
-        resolve(stdout)
-      }
-    })
-  })
 }

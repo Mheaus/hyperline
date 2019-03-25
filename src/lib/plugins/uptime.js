@@ -1,18 +1,14 @@
-import os from 'os'
-import React from 'react'
-import Component from 'hyper/component'
-import formatUptime from '../utils/time'
-import SvgIcon from '../utils/svg-icon'
+import os from 'os';
+import React from 'react';
+import formatUptime from '../utils/time';
+import SvgIcon from '../utils/svg-icon';
 
-class PluginIcon extends Component {
+class PluginIcon extends React.PureComponent {
   render() {
     return (
       <SvgIcon>
         <g fill="none" fillRule="evenodd">
-          <g
-            className='uptime-icon'
-            transform="translate(1.000000, 1.000000)"
-          >
+          <g className="uptime-icon" transform="translate(1.000000, 1.000000)">
             <g>
               <path d="M0,0 L14,0 L14,14 L0,14 L0,0 Z M1,1 L13,1 L13,13 L1,13 L1,1 Z" />
               <path d="M6,2 L7,2 L7,7 L6,7 L6,2 Z M6,7 L10,7 L10,8 L6,8 L6,7 Z" />
@@ -26,38 +22,39 @@ class PluginIcon extends Component {
           }
         `}</style>
       </SvgIcon>
-    )
+    );
   }
 }
 
-export default class Uptime extends Component {
+export default class Uptime extends React.PureComponent {
   static displayName() {
-    return 'uptime'
+    return 'uptime';
   }
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      uptime: this.getUptime()
-    }
+      uptime: this.getUptime(),
+    };
   }
 
   componentDidMount() {
-    const uptime = this.getUptime()
+    const uptime = this.getUptime();
     // Recheck every 5 minutes
-    setInterval(() => this.setState({ uptime }), 60000 * 5)
+    setInterval(() => this.setState({ uptime }), 60000 * 5);
   }
 
   getUptime() {
-    return formatUptime(os.uptime())
+    return formatUptime(os.uptime());
   }
 
   template(css) {
-    return (
-      <div className='wrapper'>
-        <PluginIcon /> {this.state.uptime}
+    const { uptime } = this.state;
 
+    return (
+      <div className="wrapper">
+        <PluginIcon /> {uptime}
         <style jsx>{`
           .wrapper {
             display: flex;
@@ -65,6 +62,6 @@ export default class Uptime extends Component {
           }
         `}</style>
       </div>
-    )
+    );
   }
 }

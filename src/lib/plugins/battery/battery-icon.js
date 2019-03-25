@@ -1,24 +1,24 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
-import Critical from './critical'
-import Charging from './charging'
-import Draining from './draining'
+import Critical from './critical';
+import Charging from './charging';
+import Draining from './draining';
 
 function BatteryIcon({ charging, percentage }) {
   if (charging) {
-    return <Charging />
+    return <Charging />;
   }
 
   if (percentage <= 20) {
-    return <Critical />
+    return <Critical />;
   }
 
-  return <Draining percentage={percentage} />
+  return <Draining percentage={percentage} />;
 }
 
 BatteryIcon.propTypes = {
   charging: PropTypes.bool,
-  percentage: PropTypes.number
-}
+  percentage: PropTypes.number,
+};
 
-export default BatteryIcon
+export default BatteryIcon;

@@ -1,5 +1,4 @@
 import React from 'react';
-import Component from 'hyper/component'; // eslint-disable-line
 import { currentLoad as getCurrentCPULoad } from 'systeminformation';
 
 import SvgIcon from '../utils/svg-icon';
@@ -40,7 +39,7 @@ function PluginIcon() {
   );
 }
 
-class Cpu extends Component {
+class Cpu extends React.PureComponent {
   constructor(props) {
     super(props);
 

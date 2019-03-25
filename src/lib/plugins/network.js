@@ -1,16 +1,15 @@
-import React from 'react'
-import Component from 'hyper/component'
-import { networkStats } from 'systeminformation'
-import SvgIcon from '../utils/svg-icon'
+import React from 'react';
+import { networkStats } from 'systeminformation';
+import SvgIcon from '../utils/svg-icon';
 
-class PluginIcon extends Component {
+class PluginIcon extends React.PureComponent {
   render() {
     return (
       <SvgIcon>
         <g fill="none" fillRule="evenodd">
           <g fill="none" fillRule="evenodd">
             <g
-              className='network-icon'
+              className="network-icon"
               transform="translate(1.000000, 1.000000)"
             >
               <g>
@@ -27,52 +26,52 @@ class PluginIcon extends Component {
           }
         `}</style>
       </SvgIcon>
-    )
+    );
   }
 }
 
-export default class Network extends Component {
+export default class Network extends React.PureComponent {
   static displayName() {
-    return 'network'
+    return 'network';
   }
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       download: 0,
-      upload: 0
-    }
+      upload: 0,
+    };
   }
 
   componentDidMount() {
-    this.getSpeed()
-    this.interval = setInterval(() => this.getSpeed(), 1500)
+    this.getSpeed();
+    this.interval = setInterval(() => this.getSpeed(), 1500);
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval)
-  }
-
-  calculate(data) {
-    const rawData = data / 1024
-    return (rawData > 0 ? rawData : 0).toFixed()
+    clearInterval(this.interval);
   }
 
   getSpeed() {
     networkStats().then(data =>
       this.setState({
         download: this.calculate(data.rx_sec),
-        upload: this.calculate(data.tx_sec)
+        upload: this.calculate(data.tx_sec),
       })
-    )
+    );
+  }
+
+  calculate(data) {
+    const rawData = data / 1024;
+
+    return (rawData > 0 ? rawData : 0).toFixed();
   }
 
   render() {
-    const { download, upload } = this.state
+    const { download, upload } = this.state;
     return (
-      <div className='wrapper'>
+      <div className="wrapper">
         <PluginIcon /> {download}kB/s {upload}kB/s
-
         <style jsx>{`
           .wrapper {
             display: flex;
@@ -80,6 +79,6 @@ export default class Network extends Component {
           }
         `}</style>
       </div>
-    )
+    );
   }
 }
