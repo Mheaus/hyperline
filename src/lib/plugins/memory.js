@@ -1,7 +1,7 @@
 import React from 'react';
 import { mem as memoryData } from 'systeminformation';
 import leftPad from 'left-pad';
-import SvgIcon from '../utils/svg-icon';
+import SvgIcon from '../components/SvgIcon';
 
 class PluginIcon extends React.PureComponent {
   render() {

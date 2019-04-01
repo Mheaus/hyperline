@@ -1,7 +1,7 @@
 import os from 'os';
 import React from 'react';
 import formatUptime from '../utils/time';
-import SvgIcon from '../utils/svg-icon';
+import SvgIcon from '../components/SvgIcon';
 
 class PluginIcon extends React.PureComponent {
   render() {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { networkStats } from 'systeminformation';
-import SvgIcon from '../utils/svg-icon';
+import SvgIcon from '../components/SvgIcon';
 
 class PluginIcon extends React.PureComponent {
   render() {

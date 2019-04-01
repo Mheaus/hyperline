@@ -1,6 +1,6 @@
 import React from 'react';
 import publicIp from 'public-ip';
-import SvgIcon from '../utils/svg-icon';
+import SvgIcon from '../components/SvgIcon';
 
 function getIp() {
   return new Promise(resolve => {

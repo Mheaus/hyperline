@@ -1,13 +1,14 @@
 import React from 'react';
-import { currentLoad as getCurrentCPULoad } from 'systeminformation';
+import SvgIcon from '../../components/SvgIcon';
 
-import SvgIcon from '../utils/svg-icon';
-
-function PluginIcon() {
+function CpuIcon() {
   return (
     <SvgIcon>
       <g fill="none" fillRule="evenodd">
-        <g className="cpu-icon" transform="translate(1.000000, 1.000000)">
+        <g
+          style={{ fill: '#3d3d3d' }}
+          transform="translate(1.000000, 1.000000)"
+        >
           <g>
             <path d="M3,3 L11,3 L11,11 L3,11 L3,3 Z M4,4 L10,4 L10,10 L4,10 L4,4 Z" />
             <rect x="5" y="5" width="4" height="4" />
@@ -29,60 +30,8 @@ function PluginIcon() {
           </g>
         </g>
       </g>
-
-      <style jsx>{`
-        .cpu-icon {
-          fill: #3d3d3d;
-        }
-      `}</style>
     </SvgIcon>
   );
 }
 
-class Cpu extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      cpuLoad: 0,
-    };
-
-    this.interval = () => {};
-  }
-
-  componentDidMount() {
-    this.getCpuLoad();
-    this.interval = setInterval(() => this.getCpuLoad(), 2500);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
-  async getCpuLoad() {
-    const { currentload } = await getCurrentCPULoad();
-
-    this.setState({
-      cpuLoad: currentload.toFixed(2),
-    });
-  }
-
-  render() {
-    const { cpuLoad } = this.state;
-
-    return (
-      <div className="wrapper">
-        <PluginIcon />
-        {` ${cpuLoad}`}
-        <style jsx>{`
-          .wrapper {
-            display: flex;
-            align-items: center;
-          }
-        `}</style>
-      </div>
-    );
-  }
-}
-
-export default Cpu;
+export default CpuIcon;

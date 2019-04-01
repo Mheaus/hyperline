@@ -1,6 +1,6 @@
 import { exec as ex } from 'child_process';
 import React from 'react';
-import SvgIcon from '../utils/svg-icon';
+import SvgIcon from '../components/SvgIcon';
 
 class PluginIcon extends React.PureComponent {
   render() {
