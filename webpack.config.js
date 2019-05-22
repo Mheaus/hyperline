@@ -15,12 +15,7 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
   ],
-  externals: [
-    nodeExternals(),
-    'hyper/component',
-    'hyper/notify',
-    'hyper/decorate',
-  ],
+  externals: [nodeExternals(), 'hyper/component', 'hyper/notify', 'hyper/decorate'],
   module: {
     rules: [
       {
