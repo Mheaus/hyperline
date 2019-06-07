@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import request from 'request';
 import { exec } from 'child_process';
-import { getConfig } from '../utils/config';
+import { getHyperlineConfig } from '../utils/config';
 
 function getPipelineStatusColor(status) {
   const colors = { success: '#1aaa55', running: '#1f78d1', failed: '#db3b21', default: '#3d3d3d' };
@@ -22,7 +22,7 @@ class Gitlab extends React.PureComponent {
       lastPipelineStatus: 'none',
     };
 
-    this.config = getConfig();
+    this.config = getHyperlineConfig();
   }
 
   componentDidMount() {
