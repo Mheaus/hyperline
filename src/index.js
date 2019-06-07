@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import HyperLine from './lib/core/hyperline';
 import plugins from './lib/plugins';
+import { getHyperlineConfig } from './lib/utils/config';
 
 let cwd;
 
@@ -16,9 +17,21 @@ const setCwd = (pid = lastPid) => {
 
 exports.decorateHyper = (Hyper, { React }) => {
   class DecorateHyper extends React.Component {
-    state = {
-      cwd: '',
-    };
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        cwd: '',
+      };
+
+      this.config = getHyperlineConfig();
+
+      this.plugins = this.config.plugins
+        .replace('[[', '')
+        .replace(']]', '')
+        .split('], [')
+        .map(pluginList => pluginList.split(', ').map(pluginName => plugins[pluginName]));
+    }
 
     componentDidMount() {
       this.interval = setInterval(() => {
@@ -40,7 +53,7 @@ exports.decorateHyper = (Hyper, { React }) => {
 
       return React.createElement(Hyper, {
         ...this.props,
-        customInnerChildren: [customChildren, React.createElement(HyperLine, { plugins, ...this.state })],
+        customInnerChildren: [customChildren, React.createElement(HyperLine, { plugins: this.plugins, ...this.state })],
       });
     }
   }

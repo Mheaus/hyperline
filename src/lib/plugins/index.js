@@ -8,6 +8,6 @@ import time from './time';
 
 // import hostname from './hostname'
 // Import Uptime from './uptime'
-// import battery from './battery'
+// import battery from './battery';
 
-export default [[time, ip, memory, cpu, network, docker], [gitlab]];
+export default { time, ip, memory, cpu, network, docker, gitlab };
