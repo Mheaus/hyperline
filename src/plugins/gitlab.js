@@ -13,6 +13,7 @@ import {
   StatusPending,
   StatusRunning,
   StatusSkipped,
+  StatusSuccess,
   StatusWarning,
 } from '../assets';
 
@@ -32,6 +33,7 @@ function getPipelineStatusIcon(status) {
     pending: StatusPending,
     running: StatusRunning,
     skipped: StatusSkipped,
+    success: StatusSuccess,
     warning: StatusWarning,
   };
 
@@ -68,7 +70,7 @@ class Gitlab extends React.PureComponent {
 
     if (prevState.id !== id && id) {
       console.log(`watching project ${id} pipelines`);
-      this.watchRunningPipelines();
+      this.watchPipelines();
     }
   }
 
@@ -121,15 +123,21 @@ class Gitlab extends React.PureComponent {
     );
   };
 
-  watchRunningPipelines = () => {
+  watchPipelines = () => {
     const { id } = this.state;
 
     this.interval = setInterval(() => {
-      this.getProjectInfo(`/${id}/pipelines?status=running`, null, pipelines => {
+      this.getProjectInfo(`/${id}/pipelines`, null, pipelines => {
         if (pipelines && pipelines.length !== 0) {
-          this.setState({ pipeline: pipelines[0] });
-          clearInterval(this.interval);
-          this.watchPipeline(pipelines[0].id);
+          const lastPipeline = pipelines[0];
+          const { status } = lastPipeline;
+
+          this.setState({ pipeline: lastPipeline });
+
+          if (status === 'running' || status === 'created' || status === 'pending') {
+            clearInterval(this.interval);
+            this.watchPipeline(lastPipeline.id);
+          }
         }
       });
     }, 1000);
@@ -143,11 +151,11 @@ class Gitlab extends React.PureComponent {
         if (pipeline) {
           this.setState({ pipeline });
 
-          if (pipeline.status === 'success' || pipeline.status === 'failed') {
+          if (pipeline.status !== 'running') {
             clearInterval(this.interval);
             setTimeout(() => {
               this.setState({ pipeline: null, lastPipelineStatus: pipeline.status });
-              this.watchRunningPipelines();
+              this.watchPipelines();
             }, 5000);
           }
         }

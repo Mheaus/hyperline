@@ -6,6 +6,7 @@ import StatusManual from './StatusManual';
 import StatusPending from './StatusPending';
 import StatusRunning from './StatusRunning';
 import StatusSkipped from './StatusSkipped';
+import StatusSuccess from './StatusSuccess';
 import StatusWarning from './StatusWarning';
 
 export {
@@ -17,5 +18,6 @@ export {
   StatusPending,
   StatusRunning,
   StatusSkipped,
+  StatusSuccess,
   StatusWarning,
 };
