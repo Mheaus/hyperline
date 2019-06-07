@@ -12,12 +12,7 @@ class Battery extends PureComponent {
       percentage: '--',
     };
 
-    this.batteryEvents = [
-      'chargingchange',
-      'chargingtimechange',
-      'dischargingtimechange',
-      'levelchange',
-    ];
+    this.batteryEvents = ['chargingchange', 'chargingtimechange', 'dischargingtimechange', 'levelchange'];
     this.handleEvent = this.handleEvent.bind(this);
   }
 
@@ -53,8 +48,7 @@ class Battery extends PureComponent {
 
     return (
       <Wrapper style={{ padding: '0' }}>
-        <BatteryIcon charging={charging} percentage={Number(percentage)} />{' '}
-        {percentage}%
+        <BatteryIcon charging={charging} percentage={Number(percentage)} /> {percentage}%
       </Wrapper>
     );
   }

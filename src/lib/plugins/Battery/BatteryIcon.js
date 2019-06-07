@@ -53,9 +53,7 @@ function BatteryIcon({ charging, percentage }) {
     <SvgIcon>
       <g fillRule="evenodd">
         <g className="cpu-discharging-icon">
-          <path
-            d={`M7,1 L9,1 L9,2 L7,2 L7,1 Z M4,2 L12,2 L12,15 L4,15 L4,2 Z ${chargePoint}`}
-          />
+          <path d={`M7,1 L9,1 L9,2 L7,2 L7,1 Z M4,2 L12,2 L12,15 L4,15 L4,2 Z ${chargePoint}`} />
         </g>
       </g>
 
@@ -69,8 +67,8 @@ function BatteryIcon({ charging, percentage }) {
 }
 
 BatteryIcon.propTypes = {
-  charging: PropTypes.bool,
-  percentage: PropTypes.number,
+  charging: PropTypes.bool.isRequired,
+  percentage: PropTypes.number.isRequired,
 };
 
 export default BatteryIcon;
