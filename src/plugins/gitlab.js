@@ -4,15 +4,17 @@ import request from 'request';
 import { exec } from 'child_process';
 import { getHyperlineConfig } from '../utils/config';
 
-import statusCanceled from '../assets/status-canceled.svg';
-import statusClosed from '../assets/status-closed.svg';
-import statusCreated from '../assets/status-created.svg';
-import statusFailed from '../assets/status-failed.svg';
-import statusManual from '../assets/status-manual.svg';
-import statusPending from '../assets/status-pending.svg';
-import statusRunning from '../assets/status-running.svg';
-import statusSkipped from '../assets/status-skipped.svg';
-import statusWarning from '../assets/status-warning.svg';
+import {
+  StatusCanceled,
+  StatusClosed,
+  StatusCreated,
+  StatusFailed,
+  StatusManual,
+  StatusPending,
+  StatusRunning,
+  StatusSkipped,
+  StatusWarning,
+} from '../assets';
 
 function getPipelineStatusColor(status) {
   const colors = { success: '#1aaa55', running: '#1f78d1', failed: '#db3b21', default: '#3d3d3d' };
@@ -22,15 +24,15 @@ function getPipelineStatusColor(status) {
 
 function getPipelineStatusIcon(status) {
   const icons = {
-    canceled: statusCanceled,
-    closed: statusClosed,
-    created: statusCreated,
-    failed: statusFailed,
-    manual: statusManual,
-    pending: statusPending,
-    running: statusRunning,
-    skipped: statusSkipped,
-    warning: statusWarning,
+    canceled: StatusCanceled,
+    closed: StatusClosed,
+    created: StatusCreated,
+    failed: StatusFailed,
+    manual: StatusManual,
+    pending: StatusPending,
+    running: StatusRunning,
+    skipped: StatusSkipped,
+    warning: StatusWarning,
   };
 
   return icons[status] || icons.created;
@@ -157,13 +159,15 @@ class Gitlab extends React.PureComponent {
     const { id, pipeline, name, lastPipelineStatus } = this.state;
 
     return (
-      <div>
+      <div style={{ marginBottom: '0.125rem' }}>
         {id && <span>{`${id} - `}</span>}
         <span style={{ color: getPipelineStatusColor(lastPipelineStatus) }}>{name || ' - '}</span>
         {pipeline && (
           <>
             <span> - </span>
-            <span style={{ color: getPipelineStatusColor(pipeline.status) }}>{pipeline.status}</span>
+            <span style={{ fill: getPipelineStatusColor(pipeline.status), top: '0.125rem', position: 'relative' }}>
+              {React.createElement(getPipelineStatusIcon(pipeline.status))}
+            </span>
           </>
         )}
       </div>
