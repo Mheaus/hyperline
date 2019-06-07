@@ -19,8 +19,12 @@ function Wrapper({ children, className, style }) {
   );
 }
 
+Wrapper.defaultProps = {
+  className: '',
+};
+
 Wrapper.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.element.isRequired,
   className: PropTypes.string,
   style: PropTypes.shape({}),
 };
