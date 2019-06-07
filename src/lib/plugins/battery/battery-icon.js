@@ -17,8 +17,8 @@ function BatteryIcon({ charging, percentage }) {
 }
 
 BatteryIcon.propTypes = {
-  charging: PropTypes.bool,
-  percentage: PropTypes.number,
+  charging: PropTypes.bool.isRequired,
+  percentage: PropTypes.number.isRequired,
 };
 
 export default BatteryIcon;
