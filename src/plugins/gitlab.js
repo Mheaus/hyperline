@@ -4,10 +4,36 @@ import request from 'request';
 import { exec } from 'child_process';
 import { getHyperlineConfig } from '../utils/config';
 
+import statusCanceled from '../assets/status-canceled.svg';
+import statusClosed from '../assets/status-closed.svg';
+import statusCreated from '../assets/status-created.svg';
+import statusFailed from '../assets/status-failed.svg';
+import statusManual from '../assets/status-manual.svg';
+import statusPending from '../assets/status-pending.svg';
+import statusRunning from '../assets/status-running.svg';
+import statusSkipped from '../assets/status-skipped.svg';
+import statusWarning from '../assets/status-warning.svg';
+
 function getPipelineStatusColor(status) {
   const colors = { success: '#1aaa55', running: '#1f78d1', failed: '#db3b21', default: '#3d3d3d' };
 
   return colors[status] || colors.default;
+}
+
+function getPipelineStatusIcon(status) {
+  const icons = {
+    canceled: statusCanceled,
+    closed: statusClosed,
+    created: statusCreated,
+    failed: statusFailed,
+    manual: statusManual,
+    pending: statusPending,
+    running: statusRunning,
+    skipped: statusSkipped,
+    warning: statusWarning,
+  };
+
+  return icons[status] || icons.created;
 }
 
 class Gitlab extends React.PureComponent {
