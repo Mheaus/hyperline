@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import request from 'request';
 import { exec } from 'child_process';
+import { getConfig } from '../utils/config';
 
 function getPipelineStatusColor(status) {
   const colors = { success: '#1aaa55', running: '#1f78d1', failed: '#db3b21', default: '#3d3d3d' };
@@ -21,28 +22,7 @@ class Gitlab extends React.PureComponent {
       lastPipelineStatus: 'none',
     };
 
-    const config = global.config.getConfig();
-
-    if (config.env.HYPERLINE_CONFIG) {
-      const defaultConfig = {
-        gitlabUrl: 'gitlab.com',
-        gitlabPrivateToken: '',
-      };
-      const hyperlineConfig = JSON.parse(config.env.HYPERLINE_CONFIG);
-
-      if (hyperlineConfig.gitlabUrl && !hyperlineConfig.gitlabPrivateToken) {
-        console.warn(
-          'Warning : no gitlab privateToken found  in config with your gitlabUrl custom. Be sure to add `env: { HYPERLINE_CONFIG: "{"gitlabUrl":...,"gitlabPrivateToken":...}" }` in your hyper config.'
-        );
-      }
-
-      this.config = {
-        ...defaultConfig,
-        ...hyperlineConfig,
-      };
-    } else {
-      console.warn('Warning : no config found. Be sure to add `env: { HYPERLINE_CONFIG: .... }` in your hyper config.');
-    }
+    this.config = getConfig();
   }
 
   componentDidMount() {
