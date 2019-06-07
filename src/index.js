@@ -1,9 +1,9 @@
 import { exec } from 'child_process';
 import PropTypes from 'prop-types';
 
-import HyperLine from './lib/core/hyperline';
-import plugins from './lib/plugins';
-import { getHyperlineConfig } from './lib/utils/config';
+import { getHyperlineConfig } from './utils/config';
+import HyperLine from './core/hyperline';
+import plugins from './plugins';
 
 let cwd;
 
