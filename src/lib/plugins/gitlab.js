@@ -23,19 +23,30 @@ class Gitlab extends React.PureComponent {
 
     const config = global.config.getConfig();
 
-    if (config.env.HYPERLINE_PRIVATE_TOKEN) {
-      this.privateToken = config.env.HYPERLINE_PRIVATE_TOKEN || '';
-    } else {
-      console.warn(
-        'Warning : no gitlab privateToken found. Be sure to add `env: { HYPERLINE_PRIVATE_TOKEN: .... }` in your hyper config.'
-      );
-    }
+    if (config.env.HYPERLINE_CONFIG) {
+      const defaultConfig = {
+        gitlabUrl: 'gitlab.com',
+        gitlabPrivateToken: '',
+      };
+      const hyperlineConfig = JSON.parse(config.env.HYPERLINE_CONFIG);
 
-    this.gitlabUrl = config.env.HYPERLINE_GITLAB_URL || 'gitlab.com';
+      if (hyperlineConfig.gitlabUrl && !hyperlineConfig.gitlabPrivateToken) {
+        console.warn(
+          'Warning : no gitlab privateToken found  in config with your gitlabUrl custom. Be sure to add `env: { HYPERLINE_CONFIG: "{"gitlabUrl":...,"gitlabPrivateToken":...}" }` in your hyper config.'
+        );
+      }
+
+      this.config = {
+        ...defaultConfig,
+        ...hyperlineConfig,
+      };
+    } else {
+      console.warn('Warning : no config found. Be sure to add `env: { HYPERLINE_CONFIG: .... }` in your hyper config.');
+    }
   }
 
   componentDidMount() {
-    if (this.privateToken) {
+    if (this.config.gitlabPrivateToken) {
       this.getGitlabProjectName();
     }
   }
@@ -43,7 +54,7 @@ class Gitlab extends React.PureComponent {
   componentDidUpdate(prevProps, prevState) {
     const { remote, name, id } = this.state;
 
-    if (prevState.name !== name && name && remote.includes(this.gitlabUrl)) {
+    if (prevState.name !== name && name && remote.includes(this.config.gitlabUrl)) {
       this.getGitlabProjectId();
     }
 
@@ -70,8 +81,8 @@ class Gitlab extends React.PureComponent {
   getProjectInfo = (urlParams, errorCallback = () => {}, callback) => {
     request(
       {
-        url: `https://${this.gitlabUrl}/api/v4/projects${urlParams}`,
-        headers: { 'PRIVATE-TOKEN': this.privateToken },
+        url: `https://${this.config.gitlabUrl}/api/v4/projects${urlParams}`,
+        headers: { 'PRIVATE-TOKEN': this.config.gitlabPrivateToken },
         method: 'GET',
       },
       (error, response, body) => {
