@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const style = {
+const defaultStyle = {
   alignItems: 'center',
   display: 'flex',
   flexShrink: '0',
   padding: '0 0.5rem',
 };
 
-function Wrapper({ children, className }) {
+function Wrapper({ children, className, style }) {
   return (
-    <div className={`wrapper${className ? ` ${className}` : ''}`} style={style}>
+    <div
+      className={`wrapper${className ? ` ${className}` : ''}`}
+      style={{ ...defaultStyle, ...style }}
+    >
       {children}
     </div>
   );
@@ -19,6 +22,7 @@ function Wrapper({ children, className }) {
 Wrapper.propTypes = {
   children: PropTypes.element,
   className: PropTypes.string,
+  style: PropTypes.shape({}),
 };
 
 export default Wrapper;

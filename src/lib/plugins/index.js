@@ -1,12 +1,12 @@
 import ip from './ip';
 import memory from './memory';
-import cpu from './cpu';
+import Cpu from './Cpu';
 import network from './network';
 import time from './time';
 import docker from './docker';
 
 // import hostname from './hostname'
 // Import Uptime from './uptime'
-// import battery from './battery'
+import Battery from './Battery';
 
-export default [time, ip, memory, cpu, network, docker];
+export default [time, Battery, ip, memory, Cpu, network, docker];
