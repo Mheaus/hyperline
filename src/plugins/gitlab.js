@@ -52,7 +52,7 @@ class Gitlab extends React.PureComponent {
     const { cwd } = this.props;
 
     exec('git ls-remote --get-url', { cwd }, (error, remote) => {
-      const name = remote.includes('git') ? /\/([a-zA-Z-]*).git$/gm.exec(remote)[1] : null;
+      const name = remote.includes('git') ? /\/([a-zA-Z-.]*).git$/gm.exec(remote)[1] : null;
 
       this.setState({ name, remote: remote.slice(0, remote.length - 1) });
     });
