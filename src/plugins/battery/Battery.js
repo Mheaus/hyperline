@@ -1,10 +1,9 @@
-import React from 'react';
-import leftPad from 'left-pad';
-import Critical from './critical';
-import Charging from './charging';
-import Draining from './draining';
+import React, { PureComponent } from 'react';
 
-class Battery extends React.PureComponent {
+import Wrapper from '../../components/Wrapper';
+import BatteryIcon from './BatteryIcon';
+
+class Battery extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -42,35 +41,15 @@ class Battery extends React.PureComponent {
     });
   }
 
-  handleEvent(event) {
-    this.setBatteryStatus(event.target);
-  }
+  handleEvent = event => this.setBatteryStatus(event.target);
 
   render() {
     const { charging, percentage } = this.state;
 
-    const BatteryIcon = () => {
-      if (charging) {
-        return <Charging />;
-      }
-
-      if (Number(percentage) <= 20) {
-        return <Critical />;
-      }
-
-      return <Draining percentage={Number(percentage)} />;
-    };
-
     return (
-      <div className="wrapper">
-        <BatteryIcon /> {leftPad(percentage, 2, 0)}%
-        <style jsx>{`
-          .wrapper {
-            display: flex;
-            align-items: center;
-          }
-        `}</style>
-      </div>
+      <Wrapper style={{ padding: '0' }}>
+        <BatteryIcon charging={charging} percentage={Number(percentage)} /> {percentage}%
+      </Wrapper>
     );
   }
 }
