@@ -4,10 +4,40 @@ import request from 'request';
 import { exec } from 'child_process';
 import { getHyperlineConfig } from '../utils/config';
 
+import {
+  StatusCanceled,
+  StatusClosed,
+  StatusCreated,
+  StatusFailed,
+  StatusManual,
+  StatusPending,
+  StatusRunning,
+  StatusSkipped,
+  StatusSuccess,
+  StatusWarning,
+} from '../assets';
+
 function getPipelineStatusColor(status) {
   const colors = { success: '#1aaa55', running: '#1f78d1', failed: '#db3b21', default: '#3d3d3d' };
 
   return colors[status] || colors.default;
+}
+
+function getPipelineStatusIcon(status) {
+  const icons = {
+    canceled: StatusCanceled,
+    closed: StatusClosed,
+    created: StatusCreated,
+    failed: StatusFailed,
+    manual: StatusManual,
+    pending: StatusPending,
+    running: StatusRunning,
+    skipped: StatusSkipped,
+    success: StatusSuccess,
+    warning: StatusWarning,
+  };
+
+  return icons[status] || icons.created;
 }
 
 class Gitlab extends React.PureComponent {
@@ -40,7 +70,8 @@ class Gitlab extends React.PureComponent {
 
     if (prevState.id !== id && id) {
       console.log(`watching project ${id} pipelines`);
-      this.watchRunningPipelines();
+
+      this.watchPipelines();
     }
   }
 
@@ -93,15 +124,21 @@ class Gitlab extends React.PureComponent {
     );
   };
 
-  watchRunningPipelines = () => {
+  watchPipelines = () => {
     const { id } = this.state;
 
     this.interval = setInterval(() => {
-      this.getProjectInfo(`/${id}/pipelines?status=running`, null, pipelines => {
+      this.getProjectInfo(`/${id}/pipelines`, null, pipelines => {
         if (pipelines && pipelines.length !== 0) {
-          this.setState({ pipeline: pipelines[0] });
-          clearInterval(this.interval);
-          this.watchPipeline(pipelines[0].id);
+          const lastPipeline = pipelines[0];
+          const { status } = lastPipeline;
+
+          this.setState({ pipeline: lastPipeline });
+
+          if (status === 'running' || status === 'created' || status === 'pending') {
+            clearInterval(this.interval);
+            this.watchPipeline(lastPipeline.id);
+          }
         }
       });
     }, 1000);
@@ -115,11 +152,11 @@ class Gitlab extends React.PureComponent {
         if (pipeline) {
           this.setState({ pipeline });
 
-          if (pipeline.status === 'success' || pipeline.status === 'failed') {
+          if (pipeline.status !== 'running') {
             clearInterval(this.interval);
             setTimeout(() => {
               this.setState({ pipeline: null, lastPipelineStatus: pipeline.status });
-              this.watchRunningPipelines();
+              this.watchPipelines();
             }, 5000);
           }
         }
@@ -131,13 +168,15 @@ class Gitlab extends React.PureComponent {
     const { id, pipeline, name, lastPipelineStatus } = this.state;
 
     return (
-      <div>
+      <div style={{ marginBottom: '0.125rem' }}>
         {id && <span>{`${id} - `}</span>}
         <span style={{ color: getPipelineStatusColor(lastPipelineStatus) }}>{name || ' - '}</span>
         {pipeline && (
           <>
             <span> - </span>
-            <span style={{ color: getPipelineStatusColor(pipeline.status) }}>{pipeline.status}</span>
+            <span style={{ fill: getPipelineStatusColor(pipeline.status), top: '0.125rem', position: 'relative' }}>
+              {React.createElement(getPipelineStatusIcon(pipeline.status))}
+            </span>
           </>
         )}
       </div>
